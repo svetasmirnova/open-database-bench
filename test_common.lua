@@ -7,6 +7,7 @@ function set_vars()
 	tellers_size = tellers_size or 10
 	accounts_size = accounts_size or 100000
 	scale = scale or 1
+	mysql_table_engine = mysql_table_engine or "innodb"
 end
 
 function prepare()
@@ -20,7 +21,9 @@ aid int not null primary key,
 bid int,
 abalance int,
 filler char(84)
-) engine=innodb default character set=latin1
+) 
+/*! ENGINE = ]] .. mysql_table_engine ..
+[[ default character set=latin1 */ 
 ]])
 
 	db_query([[
@@ -28,7 +31,9 @@ create table branches(
 bid int not null primary key,
 bbalance int,
 filler char(88)
-) engine=innodb default character set=latin1
+)
+/*! ENGINE = ]] .. mysql_table_engine ..
+[[ default character set=latin1 */
 ]])
 
 	db_query([[
@@ -39,7 +44,9 @@ aid int,
 delta int,
 mtime timestamp,
 filler char(22)
-) engine=innodb default character set=latin1
+) 
+/*! ENGINE = ]] .. mysql_table_engine ..
+[[ default character set=latin1 */ 
 ]])
 
 	db_query([[
@@ -48,7 +55,9 @@ tid int primary key,
 bid int,
 tbalance int,
 filler char(84)
-) engine=innodb default character set=latin1
+) 
+/*! ENGINE = ]] .. mysql_table_engine ..
+[[ default character set=latin1 */
 ]])
 
 	for i=1,(branches_size * scale) do
