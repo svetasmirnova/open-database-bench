@@ -60,17 +60,23 @@ filler char(84)
 [[ default character set=latin1 */
 ]])
 
+	db_bulk_insert_init("insert into branches (bid, bbalance, filler) values")
 	for i=1,(branches_size * scale) do
-		db_query("insert into branches (bid, bbalance, filler) values(" .. i .. ", 0, '')")
+		db_bulk_insert_next("(" .. i .. ", 0, '')")
 	end
+	db_bulk_insert_done()
 
+	db_bulk_insert_init("insert into tellers (tid, bid, tbalance, filler) values")
 	for i=1,(tellers_size * scale) do
-		db_query("insert into tellers (tid, bid, tbalance, filler) values(" .. i .. ", " .. ((i % (branches_size * scale)) + 1) .. ", 0, '')")
+		db_bulk_insert_next("(" .. i .. ", " .. ((i % (branches_size * scale)) + 1) .. ", 0, '')")
 	end
+	db_bulk_insert_done()
 
+	db_bulk_insert_init("insert into accounts (aid, bid, abalance, filler) values")
 	for i=1,(accounts_size * scale) do
-		db_query("insert into accounts (aid, bid, abalance, filler) values(" .. i .. ", " .. ((i % (branches_size * scale)) + 1) .. ", 0, '')")
+		db_bulk_insert_next("(" .. i .. ", " .. ((i % (branches_size * scale)) + 1) .. ", 0, '')")
 	end
+	db_bulk_insert_done()
 end
 
 function cleanup()
